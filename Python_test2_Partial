@@ -1,0 +1,27 @@
+extract_curr_file_SFO_CURR_GDG_1 = glueContext.create_dynamic_frame.from_options(
+    format_options={"quoteChar": '"', "withHeader": True, "separator": ","},
+    connection_type="s3",
+    format="csv",
+    connection_options={
+        "paths": ["<path-to-s3>"],
+        "recurse": True,
+},
+    transformation_ctx="extract_curr_file_SFO_CURR_GDG",
+)
+extract_curr_file_SFO_CURR_GDG = extract_curr_file_SFO_CURR_GDG_1.toDF()
+################################################################################
+# Stage Name: SFO_PREV_GDG
+# Stage Type: PxSequentialFile
+# Stage Inputs:  
+# Stage Outputs: extract_prev_file
+log.info("PxSequentialFile Stage: SFO_PREV_GDG - Read/Write data to file.")
+ 
+extract_prev_file_SFO_PREV_GDG_1 = glueContext.create_dynamic_frame.from_options(
+    format_options={"quoteChar": '"', "withHeader": True, "separator": ","},
+    connection_type="s3",
+    format="csv",
+    connection_options={
+        "paths": ["<path-to-s3>"],
+        "recurse": True,
+    },
+    transformation_ctx="extract_prev_file_SFO_PREV_GDG",
