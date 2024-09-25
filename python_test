@@ -1,0 +1,34 @@
+import paramiko
+
+def transfer_file(hostname, port, username, password, local_file, remote_file):
+    try:
+        # Create an SSH client
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        # Connect to the server
+        ssh.connect(hostname, port=port, username=username, password=password)
+
+        # Create an SFTP session
+        sftp = ssh.open_sftp()
+
+        # Transfer the file
+        sftp.put(local_file, remote_file)
+        print(f"Successfully transferred {local_file} to {remote_file}")
+
+        # Close the SFTP session and SSH connection
+        sftp.close()
+        ssh.close()
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Example usage
+hostname = 'your.server.com'
+port = 22  # Default SSH port
+username = 'your_username'
+password = 'your_password'
+local_file = 'path/to/local/file.txt'
+remote_file = 'path/to/remote/file.txt'
+
+transfer_file(hostname, port, username, password, local_file, remote_file)
